@@ -39,8 +39,15 @@ export const postJoin = async( req, res) => {
 export const getLogin = (req,res) =>
  res.render("login", {pageTitle:"Login"});
 
- export const postLogin = (req,res) =>{
+ export const postLogin = async(req,res) =>{
     const{username,password} = req.body;
+    const exists = await User.exists({username});
+    if(!exists){
+        return res.status(400).render("login",{ 
+            pageTitle: "Login", 
+            errorMessage: "An account with this username dose not exits.",
+        });
+    }
     //check if account exists
      //check if password correct
 
