@@ -1,7 +1,7 @@
 doctype html
 html(lang="ko")
     head
-        title #{pageTitle} | Mytube
+        title #{pageTitle} | #{siteName}
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     body
         header 
@@ -11,11 +11,10 @@ html(lang="ko")
             ul 
                 li 
                     a(href="/")  Home 
-                if !req.session.loggedIn    
-                    li 
-                        a(href="/join")    join 
-                    li 
-                        a(href="/login")    Login
+                li 
+                    a(href="/join")    join 
+                li 
+                    a(href="/login")    Login
                 li 
                     a(href="/search")  Search       
                 li 
