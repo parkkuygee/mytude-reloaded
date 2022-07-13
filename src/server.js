@@ -28,6 +28,7 @@ app.use(
 );
 
 
+
 app.use(localsMiddleware);
 app.use("/",rootRouter);
 app.use("/videos",videoRouter);
