@@ -1,4 +1,3 @@
-
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
@@ -25,10 +24,9 @@ app.use(
         secret: process.env.COOKIE_SECRET,
         resave: false,
         saveUninitialized: false,
-        store : MongoStore.create({ mongoUrl: process.env.DB_URL }),
+        store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
     })
 );
-
 
 
 app.use(localsMiddleware);
