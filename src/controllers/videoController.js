@@ -1,21 +1,6 @@
 import Video from "../models/Video";
 import User from "../models/User";
 
-//Video.find({},(error,videos) => {});
-
-/*export const home = async(req,res) =>{
-  try{
-    const videos = await Video.find({});
-    return res.render("home",{pageTitle: "Home",videos : [] });
-  } catch{
-    return res.render("server-error");
-  }
-   
-  
-};
-*/
-//callback
-
 export const home = async (req, res) => {
   const videos = await Video.find({})
     .sort({ createdAt: "desc" })
@@ -43,6 +28,7 @@ export const getEdit = async (req, res) => {
     return res.render("404", { pageTitle: "Video not found." });
   }
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "Not authorized");
     return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Edit ${video.title}`, video });
@@ -59,6 +45,7 @@ export const postEdit = async (req, res) => {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "You are not the the owner of the video.");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
@@ -66,7 +53,7 @@ export const postEdit = async (req, res) => {
     description,
     hashtags: Video.formatHashtags(hashtags),
   });
-
+  req.flash("success", "Changes saved.");
   return res.redirect(`/videos/${id}`);
 };
 
@@ -142,4 +129,11 @@ export const registerView = async (req, res) => {
   video.meta.views = video.meta.views + 1;
   await video.save();
   return res.sandStatus(200);
+};
+
+export const createComment = (req, res) => {
+  console.log(req.params);
+  console.log(req.body);
+  console.log(req.body.text, req.body.rating);
+  return res.end();
 };
